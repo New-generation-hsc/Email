@@ -12,4 +12,4 @@ class POP3(object):
     port: 110 default
     """
     def __init__(self, pop3_server, port=110):
-        
+
