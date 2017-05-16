@@ -158,6 +158,6 @@ class POPAuthenticateError(Exception):
 if __name__ == '__main__':
     client = POP3('pop.163.com')
     client.connect()
-    client.login('hsc199761@163.com', '******')
+    client.login('******', '******')
     pprint(client.latest(month=True))
     client.close()
