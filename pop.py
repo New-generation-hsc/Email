@@ -32,6 +32,7 @@ class POP3(object):
         self.port = port  # port like 163 ---> 496
         self.server = None
         self.active = False
+        self.status = False
 
     def connect(self):
         if self.server is None:
@@ -58,6 +59,7 @@ class POP3(object):
         resp, mails, octets = self.server.list()
         return mails
 
+    @decorator
     def download(self, mails):
         """download the given mails from server"""
         msg_dict = dict()
@@ -90,6 +92,7 @@ class POP3(object):
             latest_mail = self.download(mails[n-1:])
         else:
             latest_mail = self.download(mails[-1:])
+        print(":)----------->一共采集了{} 封邮件".format(len(latest_mail)))
         return latest_mail
 
     def _latest_email(self, mails, start, end, days=1):
@@ -103,7 +106,6 @@ class POP3(object):
         msg = Parser().parsestr(msg_content)
         tm = self.parse_time(msg['Date'])  # this is the email send time
         delay_time = datetime.datetime.now() - datetime.timedelta(days=days)
-        print(tm, delay_time)
         if tm == delay_time:
             return mid
         elif tm > delay_time:
